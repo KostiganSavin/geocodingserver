@@ -46,18 +46,17 @@ def success():
 
         data = get_data(f)
         if data is not None:
-            html_data = data.to_html()           
-        else:         
-            html_data = "Please make sure your file contains Address column"
-
-        global uploaded_file
-        uploaded_file = os.path.join(BASE_DIR,
+            html_data = data.to_html()
+            global uploaded_file
+            uploaded_file = os.path.join(BASE_DIR,
                                      "upload",
                                      ".".join([datetime.datetime.now().strftime(
-                                         "%Y-%m-%d-%H-%M-%S"), "csv"]))
-        data.to_csv(uploaded_file)
-
-    return render_template("index.html", html_data=html_data, btn="download.html")
+                                     "%Y-%m-%d-%H-%M-%S"), "csv"]))
+            data.to_csv(uploaded_file)
+            return render_template("index.html", html_data=html_data, btn="download.html")    
+        else:         
+            html_data = "Please make sure your file contains Address column"
+            return render_template("index.html", html_data=html_data)
 
 @app.route("/download")
 def download():
